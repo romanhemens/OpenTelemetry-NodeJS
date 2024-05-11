@@ -1,0 +1,67 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+processors:
+  batch:
+    timeout: 5s
+    #send_batch_size: 200
+  # The batch processor combines multiple incoming telemetry data items into batches.
+  # It waits up to 5 seconds or until 200 items are in a batch before sending it further.
+  
+  attributes:
+    actions:
+      - key: landscape_token
+        value: ${env:LANDSCAPE_TOKEN}
+        action: insert
+      - key: token_secret
+        value: ${env:TOKEN_SECRET} 
+        action: insert
+      - key: application_name
+        value: "mongo-express-example"
+        action: insert
+      - key: application_instance_id
+        value: "0"
+        action: insert
+      - key: application_language
+        value: "nodejs"
+        action: insert
+
+
+exporters:
+  otlp:
+    endpoint: "http://otel-collector:55678"   
+    tls:
+      insecure: true
+  otlphttp:
+    endpoint: "http://metric-service:8085"
+    tls:
+      insecure: true
+
+  # prometheus:
+  # endpoint: 0.0.0.0:9464
+  # zipkin:
+  # endpoint: http://zipkin:9411/api/v2/spans
+  	
+
+extensions:
+  health_check:
+  pprof:
+  zpages:
+
+service:
+  extensions: [health_check, pprof, zpages]
+  telemetry:
+    logs:
+      level: debug
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch, attributes]
+      exporters: [otlp] #could also use Zipkin
+    metrics:
+      receivers: [otlp]
+      processors: [batch, attributes]
+      exporters: [otlphttp] #could also use Prometheus
