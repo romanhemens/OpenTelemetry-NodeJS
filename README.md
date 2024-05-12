@@ -1,10 +1,11 @@
-#  Auto-Instrument-JavaScript-NodeJS
+## OpenTelemetry-NodeJS
+
 
 This project provides a guide how to automatically instrument a NodeJS application with OpenTelemetry. Furthermore, it is possible to connect it with [ExplorViz](https://github.com/explorviz), so the information the traces give about the software is visualized. The NodeJS application I choose is a [MongoDB admin panel](https://github.com/mongo-express/mongo-express/tree/master). The guide is focused on that, but feel free to connect the instrumentation with your own NodeJS project.
 
 ## Table of Contents
 
-- [Auto-Instrument-JavaScript-NodeJS](#Auto-Instrument-JavaScript-NodeJS)
+- [OpenTelemetry-NodeJS](#OpenTelemetry-NodeJS)
   - [Table of Contents](#table-of-contents)
   - [About the Project](#about-the-project)
   - [Getting Started](#getting-started)
